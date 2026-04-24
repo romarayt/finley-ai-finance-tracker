@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 60 9% 98%;
+    --surface: 0 0% 100%;
+    --foreground: 240 10% 10%;
+    --primary: 142 76% 36%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 60 8% 94%;
+    --secondary-foreground: 240 10% 10%;
+    --muted: 60 8% 94%;
+    --muted-foreground: 240 4% 46%;
+    --accent: 142 30% 94%;
+    --accent-foreground: 142 76% 24%;
+    --destructive: 0 72% 48%;
+    --destructive-foreground: 0 0% 100%;
+    --success: 142 72% 34%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 48%;
+    --warning-foreground: 240 10% 10%;
+    --border: 240 6% 90%;
+    --input: 240 6% 90%;
+    --ring: 142 76% 36%;
+  }
+
+  .dark {
+    --background: 240 10% 6%;
+    --surface: 240 8% 10%;
+    --foreground: 0 0% 98%;
+    --primary: 142 70% 50%;
+    --primary-foreground: 240 10% 6%;
+    --secondary: 240 6% 14%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 6% 14%;
+    --muted-foreground: 240 5% 65%;
+    --accent: 142 24% 14%;
+    --accent-foreground: 142 70% 74%;
+    --destructive: 0 72% 52%;
+    --destructive-foreground: 0 0% 100%;
+    --success: 142 70% 45%;
+    --success-foreground: 240 10% 6%;
+    --warning: 38 92% 58%;
+    --warning-foreground: 240 10% 6%;
+    --border: 240 6% 18%;
+    --input: 240 6% 18%;
+    --ring: 142 70% 50%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    font-size: 16px;
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply min-h-screen bg-background text-foreground antialiased transition-colors duration-200;
+    letter-spacing: 0;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+
+  .money {
+    @apply font-mono tabular-nums;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
