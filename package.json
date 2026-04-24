@@ -11,6 +11,7 @@
     "db:push": "prisma db push",
     "db:seed": "prisma db seed",
     "seed": "prisma db push && prisma db seed",
+    "mockups": "node scripts/generate-mockups.mjs",
     "postinstall": "prisma generate"
   },
   "dependencies": {

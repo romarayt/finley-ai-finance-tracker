@@ -65,3 +65,18 @@ SQLite fallback is included for local/demo environments. The app also has an in-
 - ESLint: passing.
 - Production build: passing.
 - Lighthouse on local production build: Performance 87, Accessibility 96.
+
+## Product Mockups
+
+JPG mockups are generated from real Finley screens:
+
+- `public/mockups/finley-overview.jpg`
+- `public/mockups/finley-dashboard.jpg`
+- `public/mockups/finley-history-insights.jpg`
+- `public/mockups/finley-mobile.jpg`
+
+Regenerate them while the app is running locally:
+
+```bash
+npm run mockups
+```
