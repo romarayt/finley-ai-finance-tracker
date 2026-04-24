@@ -49,12 +49,35 @@ function buildDescription(text: string, amount: number) {
   return cleaned[0].toUpperCase() + cleaned.slice(1, 80);
 }
 
+function hasDateHint(text: string) {
+  return /сегодня|вчера|позавчера|\d{1,2}[./-]\d{1,2}|январ|феврал|март|апрел|ма[йя]|июн|июл|август|сентябр|октябр|ноябр|декабр/i.test(text);
+}
+
+function normalizeParsedDate(text: string, parsed: ParsedTransaction): ParsedTransaction {
+  if (!hasDateHint(text)) {
+    return {
+      ...parsed,
+      date: new Date().toISOString()
+    };
+  }
+
+  const parsedDate = new Date(parsed.date);
+  if (Number.isNaN(parsedDate.getTime())) {
+    return {
+      ...parsed,
+      date: new Date().toISOString()
+    };
+  }
+
+  return parsed;
+}
+
 export function fallbackParseTransaction(text: string): ParsedTransaction {
   const amount = extractAmount(text);
   const type = detectType(text);
   const category = type === "INCOME" ? "WORK" : detectCategory(text);
 
-  return {
+  return normalizeParsedDate(text, {
     amount: amount > 0 ? amount : 1000,
     currency: "RUB",
     category,
@@ -62,7 +85,7 @@ export function fallbackParseTransaction(text: string): ParsedTransaction {
     date: new Date().toISOString(),
     type,
     confidence: amount > 0 ? 0.7 : 0.42
-  };
+  });
 }
 
 export async function parseTransactionWithAI(text: string): Promise<ParsedTransaction> {
@@ -87,6 +110,8 @@ export async function parseTransactionWithAI(text: string): Promise<ParsedTransa
           {
             role: "user",
             content: `Текст: "${text}".
+Текущая дата: ${new Date().toISOString()}.
+Если дата не указана явно, используй текущую дату.
 Категории: ${categories}.
 JSON schema: { "amount": number, "currency": "RUB" | "USD" | "EUR", "category": enum, "description": string, "date": ISO string, "type": "INCOME" | "EXPENSE", "confidence": number 0..1 }`
           }
@@ -101,7 +126,7 @@ JSON schema: { "amount": number, "currency": "RUB" | "USD" | "EUR", "category": 
       return fallbackParseTransaction(text);
     }
 
-    return parsedTransactionSchema.parse(JSON.parse(content));
+    return normalizeParsedDate(text, parsedTransactionSchema.parse(JSON.parse(content)));
   } catch (error) {
     console.error("AI parse failed:", error);
     return fallbackParseTransaction(text);
