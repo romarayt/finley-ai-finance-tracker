@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 import { BarChart3, History, Lightbulb, Plus, Settings } from "lucide-react";
 import { useState } from "react";
 
@@ -26,9 +27,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <div className="min-h-screen bg-background">
         <header className="sticky top-0 z-30 border-b border-border bg-background/95 backdrop-blur">
           <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
-            <Link href="/" className="flex items-baseline gap-2" aria-label="Finley dashboard">
-              <span className="font-display text-2xl">Finley</span>
-              <span className="hidden text-xs text-muted-foreground sm:inline">AI finance tracker</span>
+            <Link href="/" className="flex items-center gap-3" aria-label="Finley dashboard">
+              <Image src="/finley-logo.svg" alt="" width={40} height={40} priority className="h-10 w-10 rounded-lg shadow-xs" />
+              <span className="flex items-baseline gap-2">
+                <span className="font-display text-2xl">Finley</span>
+                <span className="hidden text-xs text-muted-foreground sm:inline">AI finance tracker</span>
+              </span>
             </Link>
             <nav className="hidden items-center gap-1 md:flex" aria-label="Основная навигация">
               {navItems.map((item) => {
